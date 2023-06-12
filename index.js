@@ -42,6 +42,28 @@ function gerarFaturaStr (fatura, pecas) {
     faturaStr += `Valor total: ${formato(totalFatura/100)}\n`;
     faturaStr += `Créditos acumulados: ${creditos} \n`;
     return faturaStr;
+     function calcularTotalApresentacao(apre, peca) {
+      let total = 0;
+            switch (peca.tipo) {
+      case "tragedia":
+        total = 40000;
+        if (apre.audiencia > 30) {
+          total += 1000 * (apre.audiencia - 30);
+        }
+        break;
+      case "comedia":
+        total = 30000;
+        if (apre.audiencia > 20) {
+           total += 10000 + 500 * (apre.audiencia - 20);
+        }
+        total += 300 * apre.audiencia;
+        break;
+      default:
+          throw new Error(`Peça desconhecia: ${peca.tipo}`);
+      }
+      return total;
+    }
+    let total = calcularTotalApresentacao(apre, peca);
   }
 
 const faturas = JSON.parse(readFileSync('./faturas.json'));
