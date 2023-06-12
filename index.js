@@ -6,8 +6,8 @@ function formatarMoeda(valor) {
           minimumFractionDigits: 2 }).format(valor/100);
     }
 
-function getPeca(pecas,apre) {
-      return pecas[apre.id];
+function getPeca(pecas) {
+      return pecas.id;
     }
 
 function calcularCredito(pecas, apre) {
@@ -84,7 +84,7 @@ function calcularTotalFatura(pecas, apresentacoes) {
 function gerarFaturaStr (fatura, pecas) {
     let faturaStr = `Fatura ${fatura.cliente}\n`;
   for (let apre of fatura.apresentacoes) {
-      faturaStr += `  ${getPeca(apre).nome}: ${formatarMoeda(calcularTotalApresentacao(apre))} (${apre.audiencia} assentos)\n`;
+      faturaStr += `  ${getPeca(pecas).nome}: ${formatarMoeda(calcularTotalApresentacao(apre))} (${apre.audiencia} assentos)\n`;
   }
   faturaStr += `Valor total: ${formatarMoeda(calcularTotalFatura())}\n`;
   faturaStr += `Créditos acumulados: ${calcularTotalCreditos()} \n`;
@@ -92,7 +92,10 @@ function gerarFaturaStr (fatura, pecas) {
 
  }
 
-console.log(gerarFaturaStr());
+const faturas = JSON.parse(readFileSync('./faturas.json'));
+const pecas = JSON.parse(readFileSync('./pecas.json'));
+const faturaStr = gerarFaturaStr(faturas, pecas);
+console.log(faturaStr);
 
 
 
