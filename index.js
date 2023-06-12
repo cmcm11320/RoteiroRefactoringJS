@@ -69,6 +69,19 @@ function gerarFaturaStr (fatura, pecas) {
     }
     let total = calcularTotalApresentacao(apre, getPeca(apre));
   }
+    function calcularCredito(apre) {
+      let creditos = 0;
+      creditos += Math.max(apre.audiencia - 30, 0);
+      if (getPeca(apre).tipo === "comedia") 
+         creditos += Math.floor(apre.audiencia / 5);
+      return creditos;   
+    }
+
+    function formatarMoeda(valor) {
+      return new Intl.NumberFormat("pt-BR",
+        { style: "currency", currency: "BRL",
+          minimumFractionDigits: 2 }).format(valor/100);
+    }
 
 
 const faturas = JSON.parse(readFileSync('./faturas.json'));
